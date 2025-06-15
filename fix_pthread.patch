@@ -1,0 +1,10 @@
+--- src/btop.cpp
++++ src/btop.cpp
+@@ -207,9 +207,9 @@
+-                if (pthread_timedjoin_np(Runner::runner_id, nullptr, &ts) != 0) {
+-                    pthread_cancel(Runner::runner_id);
+-                }
++                pthread_join(Runner::runner_id, nullptr);
+ 
+-                pthread_cancel(Runner::runner_id);
++                pthread_detach(Runner::runner_id);

@@ -1,0 +1,14 @@
+--- src/linux/btop_collect.cpp
++++ src/linux/btop_collect.cpp
+@@ -847,10 +847,16 @@
+-                if (getloadavg(cpu.load_avg.data(), cpu.load_avg.size()) < 0) {
+-                    // existing error handling
+-                }
++            #if !defined(__ANDROID__) && !defined(__musl__)
++                if (getloadavg(cpu.load_avg.data(), cpu.load_avg.size()) < 0) {
++                    // existing error handling
++                }
++            #else
++                // musl libc on Termux/Android doesn't have getloadavg
++                std::fill(cpu.load_avg.begin(), cpu.load_avg.end(), 0.0);
++            #endif
